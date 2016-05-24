@@ -30,9 +30,15 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     addStatusBar(30);
     setStatusText(moveInfo);
     setTitle("Four In A Row (against Computer). Developed by Stefan Moser.");
-    ComputerPlayer = new DBot(1, this); //menu for choosing?
+    
+    /*ComputerPlayer = new DBot(1, this); //menu for choosing?
     for (Token[] column : DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
+    */
+    
+     //Ändere RL zur RL-KI:
+    ComputerPlayer = new DBotRL(1, this); 
+    
   }
 
   public void reset()
