@@ -13,10 +13,16 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   Token activeToken;
   private IPlayer ComputerPlayer;
   private String moveInfo = "Move mouse to a column and click to set the token.";
+  
+  public static int ROWS = 4 +1;
+  public static int COLUMNS = 4 ;
+  
+  //Anzahl der Spielsteine die fürs Gewinnen gebraucht werden.
+  public static int WINCOUNT = 4;
 
   public FourInARow2()
   {
-    super(7, 7, 70, null, null, false);
+    super(COLUMNS, ROWS, 70, null, null, false);
     addMouseListener(this, GGMouse.lPress | GGMouse.move);
     this.getBg().setBgColor(Color.white);
     activeToken = new Token(currentPlayer, this);
@@ -25,7 +31,8 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     getBg().setFont(new Font("SansSerif", Font.BOLD, 48));
     getBg().setPaintColor(Color.red);
     show();
-    setSimulationPeriod(30);
+    //Wie lange die Steine brauchen zum runterfallen:
+    setSimulationPeriod(0);
     doRun();
     addStatusBar(30);
     setStatusText(moveInfo);
@@ -109,9 +116,9 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   {
     int col = loc.x;
     int row = loc.y;
-    return (checkVertically(col, row, 4) || checkHorizontally(col, row, 4)
-      || checkDiagonally1(col, row, 4)
-      || checkDiagonally2(col, row, 4));
+    return (checkVertically(col, row, WINCOUNT) || checkHorizontally(col, row, WINCOUNT )
+      || checkDiagonally1(col, row, WINCOUNT)
+      || checkDiagonally2(col, row, WINCOUNT));
 
   }
 
