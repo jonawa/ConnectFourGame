@@ -12,12 +12,15 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   public boolean finished = false;
   Token activeToken;
   private IPlayer ComputerPlayer;
-  private String moveInfo = "Move mouse to a column and click to set the token.";
+  private IPlayer ComputerPlayerRL;
 
   public FourInARow2()
   {
     super(7, 7, 70, null, null, false);
-    addMouseListener(this, GGMouse.lPress | GGMouse.move);
+    
+    
+    
+    //addMouseListener(this, GGMouse.lPress | GGMouse.move);
     this.getBg().setBgColor(Color.white);
     activeToken = new Token(currentPlayer, this);
     addActor(activeToken, new Location(0, 0), Location.SOUTH);
@@ -25,19 +28,20 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     getBg().setFont(new Font("SansSerif", Font.BOLD, 48));
     getBg().setPaintColor(Color.red);
     show();
+    
     setSimulationPeriod(30);
     doRun();
     addStatusBar(30);
-    setStatusText(moveInfo);
     setTitle("Four In A Row (against Computer). Developed by Stefan Moser.");
     
-    /*ComputerPlayer = new DBot(1, this); //menu for choosing?
+    
+    ComputerPlayer = new DBot(1, this); //menu for choosing?
     for (Token[] column : DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
-    */
     
-     //Ändere RL zur RL-KI:
-    ComputerPlayer = new DBotRL(1, this); 
+    ComputerPlayerRL = new DBotRL(0, this); 
+    for (Token[] column : DBot.board) //fill board with "empty" stones
+        Arrays.fill(column, new Token(-1, this));
     
   }
 
@@ -47,7 +51,7 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     removeActors(Token.class); //remove all tokens
     for (Token[] column : DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
-    currentPlayer = 0; //Human player always starts (bc i'm lazy)
+    currentPlayer = 0; //RL player always starts (bc i'm lazy)
     setStatusText("Game reset! " + (currentPlayer == 0 ? "Yellow" : "Red") + " player begins.");
     activeToken = new Token(currentPlayer, this);
     addActor(activeToken, new Location(0, 0), Location.SOUTH);
@@ -57,43 +61,17 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   public void computerMove()
   {
     setMouseEnabled(false);
-    int col = ComputerPlayer.getColumn();
+    int col;
+    if (currentPlayer==1){
+    	col = ComputerPlayer.getColumn();
+    }
+    else{
+    	col = ComputerPlayerRL.getColumn();
+    }
     activeToken.setX(col);
     activeToken.setActEnabled(true);
     currentPlayer = (currentPlayer + 1) % 2; //change Player
-    setStatusText(moveInfo);
-  }
 
-  @Override
-  public boolean mouseEvent(GGMouse mouse)
-  {
-
-    Location mouseLoc = toLocation(mouse.getX(), mouse.getY());
-    if (mouse.getEvent() == GGMouse.move)
-    { //move active Token with mouse
-      if (!finished && activeToken.getX() != mouseLoc.x)
-         activeToken.setX(mouseLoc.x);
-      return true;
-    }
-
-    if (finished)
-    {
-      reset();
-      return true;
-    }
-
-    if (getOneActorAt(new Location(mouseLoc.x, 1)) == null)
-    { //drop Token if column isn't full
-      activeToken.setActEnabled(true);
-      setMouseEnabled(false);
-      currentPlayer = (currentPlayer + 1) % 2;
-    }
-    else
-    {
-      setStatusText("This column is full.");
-    }
-
-    return true;
   }
 
   public int getPlayerOfTokenAt(int x, int y)
@@ -188,6 +166,38 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     return (adjacentSameTokens >= nrOfTokens);
   }
 
+  @Override
+  public boolean mouseEvent(GGMouse mouse)
+  {
+
+    Location mouseLoc = toLocation(mouse.getX(), mouse.getY());
+    if (mouse.getEvent() == GGMouse.move)
+    { //move active Token with mouse
+      if (!finished && activeToken.getX() != mouseLoc.x)
+         activeToken.setX(mouseLoc.x);
+      return true;
+    }
+
+    if (finished)
+    {
+      reset();
+      return true;
+    }
+
+    if (getOneActorAt(new Location(mouseLoc.x, 1)) == null)
+    { //drop Token if column isn't full
+      activeToken.setActEnabled(true);
+      setMouseEnabled(false);
+      currentPlayer = (currentPlayer + 1) % 2;
+    }
+    else
+    {
+      setStatusText("This column is full.");
+    }
+
+    return true;
+  }
+  
   public static void main(String[] args)
   {
     new FourInARow2();

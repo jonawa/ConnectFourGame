@@ -16,7 +16,7 @@ public class Token extends Actor
     super(false, "sprites/token.png", 2);
     this.player = player;
     this.gg = gg;
-    setActEnabled(false);
+    setActEnabled(true);
     show(player); // 0 = yellow , 1 = red
   }
 
@@ -55,9 +55,10 @@ public class Token extends Actor
         gg.addActor(gg.activeToken, new Location(getX(), 0),
           Location.SOUTH);
       }
-      gg.setMouseEnabled(true);
-      if (this.player == 0 && !gg.finished) // if this was human -> computer move
+      if (!gg.finished)
         gg.computerMove();
+      
+    	  
     }
   }
 
