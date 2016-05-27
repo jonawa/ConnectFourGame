@@ -16,7 +16,7 @@ public class Token extends Actor
     super(false, "sprites/token.png", 2);
     this.player = player;
     this.gg = gg;
-    setActEnabled(true);
+    setActEnabled(true); // setze auf true um direkt mit den KIs zu starten.
     show(player); // 0 = yellow , 1 = red
   }
 
