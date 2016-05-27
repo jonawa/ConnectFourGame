@@ -50,9 +50,10 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     for (Token[] column : DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
     
-    ComputerPlayerRL = new DBotRL(0, this); 
-    for (Token[] column : DBot.board) //fill board with "empty" stones
-        Arrays.fill(column, new Token(-1, this));
+    ComputerPlayerRL = new DBot(0, this); 
+//  Braucht man nicht, da eh statische Variable von IPlayer 
+//	for (Token[] column : DBot.board) //fill board with "empty" stones
+//        Arrays.fill(column, new Token(-1, this));
     
   }
 
@@ -78,6 +79,20 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     }
     else{
     	col = ComputerPlayerRL.getColumn();
+    	
+    	//Print Board
+    	StringBuilder sb = new StringBuilder();
+    	for(Token[] rows : DBot.board){
+    		for(Token token : rows){
+    			sb.append("|");
+    			sb.append(token.getPlayer());
+    			
+    		}
+    		sb.append("|");
+    		sb.append("\n");
+    	}
+    	System.out.println(sb.toString());
+    	
     }
     activeToken.setX(col);
     activeToken.setActEnabled(true);
