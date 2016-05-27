@@ -13,10 +13,21 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   Token activeToken;
   private IPlayer ComputerPlayer;
   private IPlayer ComputerPlayerRL;
+  
+  /**
+   * Anzahl Reihen wird immer um 1 erhöht sonst passt es nicht im Gamegrid
+   */
+  public static int ROWS = 6+1 ; 
+  public static int COLUMNS = 7 ;
 
   public FourInARow2()
   {
-    super(7, 7, 70, null, null, false);
+	  
+	/*GameGrid(int nbHorzCells, int nbVertCells, int cellSize, java.awt.Color gridColor, 
+	 * java.lang.String bgImagePath, boolean isNavigation)
+	Constructs a game window including a playground with possibly a navigation bar, possibly a visible grid 
+	and possibly a background image.*/  
+    super(COLUMNS, ROWS, 70, null, null, false);
     
     
     
