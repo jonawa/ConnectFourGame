@@ -13,6 +13,7 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   Token activeToken;
   private IPlayer ComputerPlayer;
   private IPlayer ComputerPlayerRL;
+//<<<<<<< HEAD
   
   /**
    * Füge Variable für die Anzahl Steine zum Gewinnen hinzu:
@@ -26,11 +27,6 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
 
   public FourInARow2()
   {
-	  
-	/*GameGrid(int nbHorzCells, int nbVertCells, int cellSize, java.awt.Color gridColor, 
-	 * java.lang.String bgImagePath, boolean isNavigation)
-	Constructs a game window including a playground with possibly a navigation bar, possibly a visible grid 
-	and possibly a background image.*/  
     super(COLUMNS, ROWS, 70, null, null, false);
     
     
@@ -58,6 +54,10 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     for (Token[] column : DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
     
+
+    ComputerPlayerRL = new DBotRL(0, this); 
+    for (Token[] column : DBot.board) //fill board with "empty" stones
+        Arrays.fill(column, new Token(-1, this));
     
   }
 
@@ -113,7 +113,8 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     		sb.append("\n");
     	}
     	System.out.println(sb.toString());
-    	
+
+    	col = ComputerPlayerRL.getColumn(WIN);
     }
     activeToken.setX(col);
     activeToken.setActEnabled(true);

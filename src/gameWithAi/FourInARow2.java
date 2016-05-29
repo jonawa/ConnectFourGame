@@ -14,9 +14,6 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   private IPlayer ComputerPlayer;
   private String moveInfo = "Move mouse to a column and click to set the token.";
   
-  /**
-   * Anzahl Reihen wird immer um 1 erhöht sonst passt es nicht im Gamegrid
-   */
   public static int ROWS = 4 +1;
   public static int COLUMNS = 4 ;
   
@@ -25,15 +22,7 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
 
   public FourInARow2()
   {
-	/*GameGrid(int nbHorzCells, int nbVertCells, int cellSize, java.awt.Color gridColor, 
-	 * java.lang.String bgImagePath, boolean isNavigation)
-		Constructs a game window including a playground with possibly a navigation bar, possibly a visible grid 
-		and possibly a background image.*/ 
-	  
-	  
     super(COLUMNS, ROWS, 70, null, null, false);
-    
-    
     addMouseListener(this, GGMouse.lPress | GGMouse.move);
     this.getBg().setBgColor(Color.white);
     activeToken = new Token(currentPlayer, this);
@@ -49,7 +38,7 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     setStatusText(moveInfo);
     setTitle("Four In A Row (against Computer). Developed by Stefan Moser.");
     
-    ComputerPlayer = new DBotRL(1, this); //menu for choosing?
+    ComputerPlayer = new DBot(1, this); //menu for choosing?
     for (Token[] column : DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
      
