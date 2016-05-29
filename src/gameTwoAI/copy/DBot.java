@@ -11,9 +11,11 @@ public class DBot extends IPlayer
     super(gg);
     this.thisPlayer = thisPlayer;
     this.enemyPlayer = (thisPlayer + 1) % 2;
+    System.out.println("DBot: I am Player "+ this.thisPlayer);
+    System.out.println("My enemy is Player " +this.enemyPlayer);
   }
 
-  public int getColumn()
+  public int getColumn(int win)
   {
     ArrayList<Integer> possibleSolutions = new ArrayList<Integer>();
     ArrayList<Integer> veryBadIdeas = new ArrayList<Integer>();
@@ -25,7 +27,7 @@ public class DBot extends IPlayer
     {
       if (debug)
         System.out.println("me first, me choose middle!"); //debug
-      return 4;
+      return FourInARow2.COLUMNS/2 +1 ; // Für variable Anzahl von Spalten.
     }
 
     // Can I win in this turn?
@@ -33,7 +35,7 @@ public class DBot extends IPlayer
     {
       row = insertToken(column);
       // if column is full, row = -1:
-      if (row != -1 && checkXInARow(column, row, 4, thisPlayer, board))
+      if (row != -1 && checkXInARow(column, row, win, thisPlayer, board))
       {
         if (debug)
           System.out.println("Found something that makes me win: "
@@ -47,7 +49,7 @@ public class DBot extends IPlayer
     {
       row = insertToken(column);
       // if column is full, row == -1:
-      if (row != -1 && checkXInARow(column, row, 4, enemyPlayer, board))
+      if (row != -1 && checkXInARow(column, row, win, enemyPlayer, board))
       {
         if (debug)
           System.out.println("Found something that makes enemy win: "
@@ -58,11 +60,12 @@ public class DBot extends IPlayer
 
     // stay defensive! try to destroy enemies chances to win:
     // put all these possibilities into ArrayList: possibleSolutions
-    for (column = 0; column < 7; column++)
+    for (column = 0; column < FourInARow2.COLUMNS; column++)
     {
       row = insertToken(column);
-
-      if (row != -1 && checkXInARow(column, row, 3, enemyPlayer, board))
+      // AUCHTUNG! Hier noch variabel anpassen!
+            
+      /*if (row != -1 && checkXInARow(column, row, 3, enemyPlayer, board))
       {
         if (debug)
           System.out.println("Found something good: " + (column + 1)); // debug
@@ -75,7 +78,20 @@ public class DBot extends IPlayer
           System.out.println("Found something (maybe) valuable: "
             + (column + 1)); // debug
         possibleSolutions.add(column);
+      }*/
+      //Ersetze durch for-Schleife
+      
+      for (int i=win-1; i>1; i--)
+      {
+    	  if (row != -1 && checkXInARow(column, row, i, enemyPlayer, board))
+          {
+            if (debug)
+              System.out.println("Found something (maybe) valuable: "
+                + (column + 1)); // debug
+            possibleSolutions.add(column);
+          }
       }
+      
     }
 
     // does any solution enable my enemy to win next turn?

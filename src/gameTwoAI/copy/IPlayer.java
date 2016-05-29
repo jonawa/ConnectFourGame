@@ -7,12 +7,12 @@ public abstract class IPlayer
 {
   protected int thisPlayer; //initialized @ constructor
   protected int enemyPlayer;
-  public static Token[][] board = new Token[7][6]; //first x, then y coordinate
+  public static Token[][] board = new Token[FourInARow2.COLUMNS][FourInARow2.ROWS-1]; //first x, then y coordinate
   protected boolean debug = true;
   protected GameGrid gg;
 
   //has to be overwritten:
-  public abstract int getColumn();
+  public abstract int getColumn(int win);
 
   public IPlayer(GameGrid gg)
   {

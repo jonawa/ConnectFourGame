@@ -15,6 +15,10 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   private IPlayer ComputerPlayerRL;
   
   /**
+   * Füge Variable für die Anzahl Steine zum Gewinnen hinzu:
+   */
+  public int WIN= 3;
+  /**
    * Anzahl Reihen wird immer um 1 erhöht sonst passt es nicht im Gamegrid
    */
   public static int ROWS = 6+1 ; 
@@ -34,6 +38,9 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     //addMouseListener(this, GGMouse.lPress | GGMouse.move);
     this.getBg().setBgColor(Color.white);
     activeToken = new Token(currentPlayer, this);
+    // Füge hinzu:
+   // Token activeTokenBot = new Token(currentPlayer+1, this);
+    
     addActor(activeToken, new Location(0, 0), Location.SOUTH);
     addActor(new BG(), new Location(3, -1)); //outside of grid, so it doesn't disturb game
     getBg().setFont(new Font("SansSerif", Font.BOLD, 48));
@@ -46,19 +53,17 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     setTitle("Four In A Row (against Computer). Developed by Stefan Moser.");
     
     
-    ComputerPlayer = new DBot(1, this); //menu for choosing?
+    ComputerPlayer = new DBot(1, this); 
+    ComputerPlayerRL = new DBotRL(0, this); 
     for (Token[] column : DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
     
-    ComputerPlayerRL = new DBot(0, this); 
-//  Braucht man nicht, da eh statische Variable von IPlayer 
-//	for (Token[] column : DBot.board) //fill board with "empty" stones
-//        Arrays.fill(column, new Token(-1, this));
     
   }
 
   public void reset()
   {
+	System.out.println("Reset");
     getBg().clear();
     removeActors(Token.class); //remove all tokens
     for (Token[] column : DBot.board) //fill board with "empty" stones
@@ -72,14 +77,30 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
 
   public void computerMove()
   {
+	System.out.println("ComputerMove: CurrentPlayer =" +currentPlayer);
     setMouseEnabled(false);
     int col;
     if (currentPlayer==1){
-    	col = ComputerPlayer.getColumn();
+    	System.out.println("Default Bot turn");
+    	col = ComputerPlayer.getColumn(WIN);
+    	
+    	//Print Board
+    	StringBuilder sb = new StringBuilder();
+    	for(Token[] rows : DBotRL.board){
+    		for(Token token : rows){
+    			sb.append("|");
+    			sb.append(token.getPlayer());
+    			
+    		}
+    		sb.append("|");
+    		sb.append("\n");
+    	}
+    	System.out.println(sb.toString());
     }
     else{
-    	col = ComputerPlayerRL.getColumn();
-    	
+    	System.out.println("RL turn");
+    	col = ComputerPlayerRL.getColumn(WIN);
+     	
     	//Print Board
     	StringBuilder sb = new StringBuilder();
     	for(Token[] rows : DBot.board){
@@ -116,9 +137,9 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   {
     int col = loc.x;
     int row = loc.y;
-    return (checkVertically(col, row, 4) || checkHorizontally(col, row, 4)
-      || checkDiagonally1(col, row, 4)
-      || checkDiagonally2(col, row, 4));
+    return (checkVertically(col, row, WIN) || checkHorizontally(col, row, WIN)
+      || checkDiagonally1(col, row, WIN)
+      || checkDiagonally2(col, row, WIN));
 
   }
 
