@@ -16,16 +16,17 @@ public class Token extends Actor
     super(false, "sprites/token.png", 2);
     this.player = player;
     this.gg = gg;
-    setActEnabled(true);
+    setActEnabled(true); // setze auf true um direkt mit den KIs zu starten.
     show(player); // 0 = yellow , 1 = red
   }
 
   public void act()
   {
-    Location nextLoc = new Location(getX(), getY() + 1);
+	  
+	Location nextLoc = new Location(getX(), getY() + 1);
     if (gameGrid.getOneActorAt(nextLoc) == null && isMoveValid())
     {
-      if (nb == 6)
+      if (nb == FourInARow2.ROWS-1)
       {
         nb = 0;
         setLocationOffset(new java.awt.Point(0, 0));
@@ -37,16 +38,18 @@ public class Token extends Actor
     }
     else
     { //token has arrived
-      setActEnabled(false);
-      IPlayer.board[getX()][Math.abs(getY() - 6)] = this; //put into table for computers move
+      setActEnabled(false); 
+      IPlayer.board[getX()][Math.abs(getY() - (FourInARow2.ROWS-1))] = this; //put into table for computers move
       if (gg.check4Win(getLocation()))
       {
-        gg.setStatusText((player == 0 ? "You won!" : "You lost!")
+        gg.setStatusText((player == 0 ? "RL-Bot won!" : "RL-Bot lost!")
           + " Click on the board to play again.");
         gg.getBg().drawText("Game Over", new Point(10, 55));
         gg.finished = true;
         gg.refresh();
+        gg.reset();
         Monitor.putSleep(2000); // wait for 2 seconds
+      
       }
       else
       {
@@ -56,6 +59,7 @@ public class Token extends Actor
           Location.SOUTH);
       }
       if (!gg.finished)
+    	System.out.println("Computer move for Player" + this.player);
         gg.computerMove();
       
     	  
