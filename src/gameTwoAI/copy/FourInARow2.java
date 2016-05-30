@@ -3,6 +3,8 @@ package gameTwoAI.copy;
 
 
 import ch.aplu.jgamegrid.*;
+import util.Helper;
+
 import java.awt.*;
 import java.util.Arrays;
 
@@ -50,14 +52,10 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     
     
     ComputerPlayer = new DBot(1, this); 
-    ComputerPlayerRL = new DBotRL(0, this); 
+    ComputerPlayerRL = new DBot(0, this); 
     for (Token[] column : DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
     
-
-    ComputerPlayerRL = new DBotRL(0, this); 
-    for (Token[] column : DBot.board) //fill board with "empty" stones
-        Arrays.fill(column, new Token(-1, this));
     
   }
 
@@ -85,34 +83,15 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     	col = ComputerPlayer.getColumn(WIN);
     	
     	//Print Board
-    	StringBuilder sb = new StringBuilder();
-    	for(Token[] rows : DBotRL.board){
-    		for(Token token : rows){
-    			sb.append("|");
-    			sb.append(token.getPlayer());
-    			
-    		}
-    		sb.append("|");
-    		sb.append("\n");
-    	}
-    	System.out.println(sb.toString());
+    	//System.out.println(Helper.convertTokenBoardToString(DBot.board));
     }
     else{
     	System.out.println("RL turn");
-    	col = ComputerPlayerRL.getColumn(WIN);
+    	col = ComputerPlayerRL.getColumn(WIN) ;
      	
     	//Print Board
-    	StringBuilder sb = new StringBuilder();
-    	for(Token[] rows : DBot.board){
-    		for(Token token : rows){
-    			sb.append("|");
-    			sb.append(token.getPlayer());
-    			
-    		}
-    		sb.append("|");
-    		sb.append("\n");
-    	}
-    	System.out.println(sb.toString());
+    	int[][] board = Helper.convertTokenBoardToInt(DBot.board);
+    	System.out.println(Helper.convertIntBoardToString(board));
 
     	col = ComputerPlayerRL.getColumn(WIN);
     }
