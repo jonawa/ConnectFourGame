@@ -3,10 +3,12 @@ package gameTwoAI.copy;
 
 
 import ch.aplu.jgamegrid.*;
+import db.TestDB;
 import util.Helper;
 
 import java.awt.*;
 import java.util.Arrays;
+
 
 public class FourInARow2 extends GameGrid implements GGMouseListener
 {
@@ -45,7 +47,7 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     getBg().setPaintColor(Color.red);
     show();
     
-    setSimulationPeriod(30);
+    setSimulationPeriod(0);
     doRun();
     addStatusBar(30);
     setTitle("Four In A Row (against Computer). Developed by Stefan Moser.");
@@ -92,8 +94,14 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     	//Print Board
     	int[][] board = Helper.convertTokenBoardToInt(DBot.board);
     	System.out.println(Helper.convertIntBoardToString(board));
+    	
 
     	col = ComputerPlayerRL.getColumn(WIN);
+    	
+    	//In die Datenbank einfügen:
+    	TestDB db = TestDB.getDB();
+    	db.put(board, col, 1000);
+    	System.out.println(db.toString());
     }
     activeToken.setX(col);
     activeToken.setActEnabled(true);

@@ -79,5 +79,18 @@ public class Helper {
 		return sb.toString();
     }
 
+    
+    
+    public static String convertIntBoardTo1DString(int[][] board){
+		StringBuilder sb = new StringBuilder();
+		for(int[] rows : board){
+			for(int token : rows){		
+				sb.append(token);
+			}
+
+		}
+		
+		return sb.toString();
+    }
 
 }
