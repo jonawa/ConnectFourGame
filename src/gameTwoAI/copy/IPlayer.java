@@ -8,7 +8,7 @@ public abstract class IPlayer
   protected int thisPlayer; //initialized @ constructor
   protected int enemyPlayer;
   public static Token[][] board = new Token[FourInARow2.COLUMNS][FourInARow2.ROWS-1]; //first x, then y coordinate
-  protected boolean debug = true;
+  protected boolean debug = false;
   protected GameGrid gg;
 
   //has to be overwritten:
