@@ -45,6 +45,7 @@ public class Token extends Actor
         gg.setStatusText((player == 0 ? "RL-Bot won!" : "RL-Bot lost!")
           + " Click on the board to play again.");
         gg.getBg().drawText("Game Over", new Point(10, 55));
+        System.out.format("-----------------------------\n Spieler %d gewinnt \n-----------------------\n",player);
         gg.finished = true;
         gg.refresh();
         gg.reset();

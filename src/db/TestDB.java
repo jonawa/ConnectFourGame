@@ -4,6 +4,10 @@ import java.util.Map;
 
 import util.Helper;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 /**
@@ -118,4 +122,63 @@ public class TestDB {
 		sb.append("Die Menge der Keys in der DB: " + db.size());
 		return sb.toString();
 	}
+
+	/**
+	 * Achtung noch nicht vollständig und ungetestet
+	 */
+	public void saveDB(){
+		try {
+			FileOutputStream fileOut =
+			         new FileOutputStream("");
+			         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			         try {
+						out.writeObject(db);
+						out.close();
+				         fileOut.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			         
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Der Methode wird ein 2D Int Array übergeben. Die Datenbank überprüft, ob dieser State vorhanden ist.
+	 * Falls nicht wird -1 zurückgeben, falls vorhanden wird die Action aus der Datenbank gesucht, die den höchsten Value hat.
+	 * Die Action ist ein Wert von 0 bis zur Größe des aktuellen Spielfeldes -1.
+	 * Also die Spalte mit dem höchsten Wert
+	 * 
+	 * @param state aktuelle Spielposition als 2D Int Array
+	 * @return int, gibt die Reihe(action) zurück in die geworfen werden soll
+	 * 
+	 */
+	public int maxValueActionForState(int[][] state){
+		//TODO Implementieren
+		return -1;
+	}
+	/**
+	 * Methode wird dazu benutzt, am Ende eines Spiels: alle Actions, in den jeweiligen States ab bzw. aufzuwerten.
+	 * Dabei sucht die Datenbank nach dem State und der Action die bewertet werden soll und addiert den Wert von addValue
+	 * zu dem aktuellen Wert(value).
+	 * 
+	 * @param state aktuelle Spielposition als 2D Int Array
+	 * @param action Action(also Reihe, in die geschmissen wurde) die bewertet werden soll
+	 * @param addValue Bewertung als int, von dem was hinzugefügt werden soll zum aktuellen Value
+	 * @return true, wenn das Update erfolgreich war, false wenn das Update nicht erfolgreich war
+	 */
+	public boolean update(int[][] state, int action, int addValue){
+		
+		//TODO Implementieren
+		return false;
+	}
 }
+
+
