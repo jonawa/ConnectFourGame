@@ -37,7 +37,7 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     this.getBg().setBgColor(Color.white);
     activeToken = new Token(currentPlayer, this);
     // Füge hinzu:
-   // Token activeTokenBot = new Token(currentPlayer+1, this);
+    Token activeTokenBot = new Token(currentPlayer+1, this);
     
     addActor(activeToken, new Location(0, 0), Location.SOUTH);
     addActor(new BG(), new Location(3, -1)); //outside of grid, so it doesn't disturb game
@@ -52,10 +52,10 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     
     
     ComputerPlayer = new DBot(1, this); 
-    ComputerPlayerRL = new DBot(0, this); 
+    ComputerPlayerRL = new DBotRL(0, this); 
     for (Token[] column : DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
-    
+    System.out.println();
     
   }
 
@@ -95,6 +95,7 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
 
     	col = ComputerPlayerRL.getColumn(WIN);
     }
+    System.out.println("Set Token to " + (col+1));
     activeToken.setX(col);
     activeToken.setActEnabled(true);
     currentPlayer = (currentPlayer + 1) % 2; //change Player
