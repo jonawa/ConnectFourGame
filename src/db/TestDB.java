@@ -14,6 +14,8 @@ import java.util.HashMap;
 public class TestDB {
 	
 	private static TestDB testDB;
+	
+	
 	private  Map<int[][], HashMap<Integer, Integer>> db;
 	
 	private TestDB() {
@@ -30,6 +32,18 @@ public class TestDB {
 		return testDB;
 	}
 	
+	/**
+	 * Das schreiben in die Datenbank funktioniert wie folgt:
+	 * Als Input bekommt die Datenbank ein 2D Int Array mit dem aktuellen Spielzug(alternativ Binärcodierung) ==> State
+	 * dann die Reihe in die geworfen werden soll ==> Action und den Wert der diesem Spielzug zugeorndet ist ==> Value
+	 * 
+	 * Falls kein State vorhanden => komplett neuer Eintrag mit allen Werten
+	 * Falls State vorhanden, aber Action noch nicht: Neue Action zu aktuellen State anlegen
+	 * 
+	 * @param state
+	 * @param action
+	 * @param value
+	 */
 	public void put(int[][] state, int action, int value){
 		//TODO Das kann doch eigentlich nicht effizient sein oder?
 		
