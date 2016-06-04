@@ -3,6 +3,13 @@
  */
 package qLearning;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Queue;
+
+import db.TestDB;
+import gameTwoAI.copy.FourInARow2;
 
 /**
  * Class QLearning
@@ -17,7 +24,7 @@ public class QLearning {
     //TODO Anlegen
 	
 	/**
-	 * Count of states.
+	 * Count of states. ?
 	 */
 	private int statesCount;
 	
@@ -25,9 +32,19 @@ public class QLearning {
 	//TODO Anlegen
 	
 	/**
-	 * Count of actions.
+	 * Count of actions. 
 	 */
-	private int actionsCount;
+	private int actionsCount = FourInARow2.WIN;
+	
+	/**
+	 * Count of columns. 
+	 */
+	private int col = FourInARow2.COLUMNS;
+	
+	/**
+	 * Count of rows. 
+	 */
+	private int row = FourInARow2.ROWS;
 	
     /**
      * Discount factor
@@ -57,11 +74,32 @@ public class QLearning {
      */
     private int[][] R = new int[getStatesCount()][getActionsCount()];
     
-    public QLearning() {
-        //TODO Belohnungen
-    }
-
-	private void run() {
+    private TestDB database = null;
+   
+    /**
+     * Speichert die ausgeführten Aktionen und Bewertungen.
+     * 
+     */
+    private List<Move> gameplay = new ArrayList<Move>();
+    
+    private int getAction(int[][] state) {
+		
+    	if (database == null){
+    		database=TestDB.getDB();
+    	}
+    	
+    	int action = database.maxValueActionForState(state);
+		gameplay.add(new Move(state, action)); 
+		
+		if (checkWin()){
+			for(Move m: gameplay){
+				database.put(m.getState(), m.getColumn(), 1);
+			}
+			database.saveDB();
+		}
+		
+		return action;
+		
 		/* TODO Rest vom Algo impl.
         repeat
 			select and carry out an action a
@@ -70,10 +108,13 @@ public class QLearning {
 			s <- s'
 		until termination
         */
-	 
- 
 	}
-    
+	
+	private boolean checkWin(){
+		return false;
+	}
+	
+	
     
 	/**
 	 * @param args
@@ -83,7 +124,7 @@ public class QLearning {
 		 
         QLearning obj = new QLearning();
  
-        obj.run();
+        //obj.run();
  
         long END = System.currentTimeMillis();
         System.out.println("Time: " + (END - BEGIN) / 1000.0 + " sec.");
@@ -105,4 +146,7 @@ public class QLearning {
     private int getActionsCount() {
 		return actionsCount;
 	}
+    
+    
+   
 }

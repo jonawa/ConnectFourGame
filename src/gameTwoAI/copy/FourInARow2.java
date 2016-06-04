@@ -22,7 +22,7 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   /**
    * Füge Variable für die Anzahl Steine zum Gewinnen hinzu:
    */
-  public int WIN= 3;
+  public static int WIN= 3;
   /**
    * Anzahl Reihen wird immer um 1 erhöht sonst passt es nicht im Gamegrid
    */
@@ -47,7 +47,7 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     getBg().setPaintColor(Color.red);
     show();
     
-    setSimulationPeriod(0);
+    setSimulationPeriod(30);
     doRun();
     addStatusBar(30);
     setTitle("Four In A Row (against Computer). Developed by Stefan Moser.");
@@ -85,7 +85,8 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     	col = ComputerPlayer.getColumn(WIN);
     	
     	//Print Board
-    	//System.out.println(Helper.convertTokenBoardToString(DBot.board));
+    	int[][] board = Helper.convertTokenBoardToInt(DBot.board);
+    	System.out.println(Helper.convertIntBoardToString(board));
     }
     else{
     	System.out.println("RL turn");
@@ -96,7 +97,6 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     	System.out.println(Helper.convertIntBoardToString(board));
     	
 
-    	col = ComputerPlayerRL.getColumn(WIN);
     	
     	//In die Datenbank einfügen:
     	TestDB db = TestDB.getDB();
