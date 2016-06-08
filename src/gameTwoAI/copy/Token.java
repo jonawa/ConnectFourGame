@@ -54,15 +54,17 @@ public class Token extends Actor
       }
       else
       {
+    	  //System.out.println("Change Player");
         // make new Token:
-        gg.activeToken = new Token((player + 1) % 2, gg);
+        //gg.activeToken = new Token((player + 1) % 2, gg);
+    	  gg.activeToken = new Token(player , gg);
         gg.addActor(gg.activeToken, new Location(getX(), 0),
           Location.SOUTH);
       }
-      if (!gg.finished)
-    	System.out.println("Computer move for Player" + this.player);
+      if (!gg.finished){
+    	System.out.println("Computer move for Player" + player);
         gg.computerMove();
-      
+      }
     	  
     }
   }
@@ -70,5 +72,9 @@ public class Token extends Actor
   public int getPlayer()
   {
     return player;
+  }
+  
+  public void setPlayer(int p){
+	  player=p;
   }
 }

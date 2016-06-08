@@ -3,6 +3,9 @@ package gameWithAi;
 
 
 import ch.aplu.jgamegrid.*;
+import gameTwoAI.copy.DBot;
+import util.Helper;
+
 import java.awt.*;
 import java.util.Arrays;
 
@@ -14,8 +17,8 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   private IPlayer ComputerPlayer;
   private String moveInfo = "Move mouse to a column and click to set the token.";
   
-  public static int ROWS = 4 +1;
-  public static int COLUMNS = 4 ;
+  public static int ROWS = 6 +1;
+  public static int COLUMNS = 7 ;
   
   //Anzahl der Spielsteine die fürs Gewinnen gebraucht werden.
   public static int WINCOUNT = 4;
@@ -38,8 +41,8 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     setStatusText(moveInfo);
     setTitle("Four In A Row (against Computer). Developed by Stefan Moser.");
     
-    ComputerPlayer = new DBot(1, this); //menu for choosing?
-    for (Token[] column : DBot.board) //fill board with "empty" stones
+    ComputerPlayer = new gameWithAi.DBot(1, this); //menu for choosing?
+    for (Token[] column : gameWithAi.DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
      
     
@@ -49,7 +52,7 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
   {
     getBg().clear();
     removeActors(Token.class); //remove all tokens
-    for (Token[] column : DBot.board) //fill board with "empty" stones
+    for (Token[] column : gameWithAi.DBot.board) //fill board with "empty" stones
       Arrays.fill(column, new Token(-1, this));
     currentPlayer = 0; //Human player always starts (bc i'm lazy)
     setStatusText("Game reset! " + (currentPlayer == 0 ? "Yellow" : "Red") + " player begins.");
@@ -66,6 +69,8 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     activeToken.setActEnabled(true);
     currentPlayer = (currentPlayer + 1) % 2; //change Player
     setStatusText(moveInfo);
+	int[][] board = Helper.convertTokenBoardToInt(DBot.board);
+	System.out.println(Helper.convertIntBoardToString(board));
   }
 
   @Override

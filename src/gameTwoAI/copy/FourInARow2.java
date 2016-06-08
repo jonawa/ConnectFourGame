@@ -105,8 +105,10 @@ public class FourInARow2 extends GameGrid implements GGMouseListener
     }
     System.out.println("Set Token to " + (col+1));
     activeToken.setX(col);
-    activeToken.setActEnabled(true);
     currentPlayer = (currentPlayer + 1) % 2; //change Player
+    activeToken.setPlayer(currentPlayer);
+    activeToken.setActEnabled(true);
+    
 
   }
 
